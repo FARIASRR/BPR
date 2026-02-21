@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BDPR - CFE</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="brand brand-left">
+          <div class="seal">🇲🇽</div>
+          <div><strong>GOBIERNO DE MÉXICO</strong></div>
+        </div>
+        <div class="brand brand-center">
+          <strong>CFE</strong>
+          <span>Comisión Federal de Electricidad</span>
+        </div>
+      </div>
+      <div class="brand brand-right">
+        <h1>Banco de Precios de Referencia (BDP)</h1>
+        <p>Sistema Inteligente de Precios /Mercado</p>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="search-card">
+        <div class="search-head">
+          <div>
+            <h2>🔎 Búsqueda Avanzada de Contratos</h2>
+            <p>Consulta precios históricos y actualizados mediante índices (INPC/INPP/Internacionales).</p>
+          </div>
+          <div class="head-actions">
+            <button id="limpiar" class="btn ghost">🧹 Limpiar</button>
+            <button id="buscar" class="btn primary">🔍 Buscar</button>
+            <button id="cambiar-indice" class="btn soft">Cambiar Índice</button>
+            <button id="descargar" class="btn soft">Descargar</button>
+          </div>
+        </div>
+
+        <div class="filters-grid">
+          <label>No. Contrato<input id="no_contrato" placeholder="Ej. 45000123" /></label>
+          <label>No. Solcon<input id="no_solcon" placeholder="Ej. SOL-100245" /></label>
+          <label>No. Proveedor<input id="no_proveedor" type="number" placeholder="Ej. 7001" /></label>
+          <label>Nombre Proveedor<input id="nombre_proveedor" placeholder="Nombre o RFC" /></label>
+
+          <div class="field-block"><span>Grupo de Artículo</span><div id="grupo_articulo_dd" class="custom-dd"></div></div>
+          <div class="field-block"><span>Centro</span><div id="centro_dd" class="custom-dd"></div></div>
+          <label>Texto breve material<input id="texto_breve" placeholder="Ej. TENSOR, VÁLVULA..." /></label>
+          <label>No. Material<input id="no_material" type="number" placeholder="Ej. 900125" /></label>
+
+          <div class="field-block"><span>Almacén</span><div id="almacen_dd" class="custom-dd"></div></div>
+          <div class="field-block wide"><span>Año</span><div id="anio_chips" class="chips"></div></div>
+          <div class="field-block"><span>Moneda</span><div id="moneda_checks" class="checks"></div></div>
+        </div>
+
+        <section class="kpis">
+          <article class="kpi kpi-1"><p id="kpi-contratos">0</p><span>TOTAL CONTRATOS</span></article>
+          <article class="kpi kpi-2"><p id="kpi-proveedores">0</p><span>PROVEEDORES</span></article>
+          <article class="indices-box">
+            <p><strong>Índice sugerido por moneda:</strong> <span id="indice-meta">-</span></p>
+            <p><strong>Índice aplicado:</strong> <span id="indice-aplicado">-</span></p>
+            <p><strong>Origen:</strong> <span id="indice-origen">-</span></p>
+            <div class="pills">
+              <span class="pill blue" id="pill-inpc">INPC: -</span>
+              <span class="pill orange">INPP: disponible</span>
+              <span class="pill dark">USD/MXP: Excluido</span>
+            </div>
+            <small id="fecha-indices">Última actualización de índices: -</small>
+            <small id="advertencia" class="warning"></small>
+          </article>
+        </section>
+
+        <h3>Resultados de la Búsqueda</h3>
+        <section class="table-card">
+          <div class="table-wrap" id="table-wrap">
+            <table>
+              <thead><tr id="headers"></tr></thead>
+              <tbody id="rows"></tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="19">Totales</td>
+                  <td></td>
+                  <td></td>
+                  <td id="total-act"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <p class="totals-inline">Importe Total Base: <strong id="total-base"></strong></p>
+        </section>
+      </section>
+    </main>
+
+    <aside id="indice-panel" class="drawer">
+      <div class="drawer-content">
+        <h3>Cambiar Índice</h3>
+        <p>Selecciona un índice para recalcular toda la consulta.</p>
+        <h4>Internacional</h4>
+        <div id="indices-internacional"></div>
+        <h4>Nacional</h4>
+        <div id="indices-nacional"></div>
+      </div>
+    </aside>
+
+    <div id="export-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Modalidad de descarga</h3>
+        <button data-mode="csv_limited" data-limit="50000">CSV limitado 50k</button>
+        <button data-mode="csv_limited" data-limit="100000">CSV limitado 100k</button>
+        <button data-mode="csv_limited" data-limit="200000">CSV limitado 200k</button>
+        <button data-mode="full">Exportación completa (job)</button>
+        <button id="cerrar-modal" class="btn ghost">Cerrar</button>
+        <pre id="export-status"></pre>
+      </div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
