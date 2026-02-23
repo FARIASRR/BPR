@@ -94,10 +94,15 @@ th { position: sticky; top: 0; background: #fafbfd; cursor: pointer; text-align:
 tfoot td { position: sticky; bottom: 0; background: #f4f8ef; font-weight: 700; }
 .totals-inline { font-size: .95rem; color: #4f6078; margin-top: 8px; }
 
-.drawer { position: fixed; top: 0; right: -400px; width: 380px; height: 100vh; background: #fff; box-shadow: -2px 0 16px #00000033; transition: right .25s ease; overflow: auto; }
+.drawer { position: fixed; top: 0; right: -430px; width: 420px; max-width: 92vw; height: 100vh; background: #fff; box-shadow: -2px 0 16px #00000033; transition: right .25s ease; overflow: auto; z-index: 70; }
 .drawer.open { right: 0; }
+.drawer-backdrop { position: fixed; inset: 0; background: #00000033; z-index: 60; }
+.drawer-backdrop.hidden { display: none; }
 .drawer-content { padding: 18px; }
-.index-button { width: 100%; margin-bottom: 8px; text-align: left; }
+.drawer-content h4 { margin: 16px 0 8px; color: #2f4157; }
+.drawer-content h5 { margin: 12px 0 6px; color: #506681; font-size: .95rem; }
+.index-button { width: 100%; margin-bottom: 8px; text-align: left; white-space: normal; line-height: 1.25; padding: 9px 10px; border: 1px solid #d2dae6; border-radius: 8px; background: #f8fafc; color: #2f4157; cursor: pointer; font-size: .9rem; }
+.index-button:hover { background: #eef3f8; }
 
 .modal { position: fixed; inset: 0; background: #00000055; display: grid; place-items: center; }
 .modal.hidden { display: none; }

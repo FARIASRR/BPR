@@ -89,8 +89,18 @@ async function loadCatalogos() {
   renderYears();
   renderMonedas();
 
-  qs("indices-internacional").innerHTML = indices.filter((i) => i.tipo === "internacional").map((i) => `<button data-indice="${i.codigo}" class="index-button">${i.nombre}</button>`).join("");
-  qs("indices-nacional").innerHTML = indices.filter((i) => i.tipo === "nacional").map((i) => `<button data-indice="${i.codigo}" class="index-button">${i.nombre}</button>`).join("");
+  qs("indices-inpc").innerHTML = indices
+    .filter((i) => i.tipo === "nacional" && i.familia === "INPC")
+    .map((i) => `<button data-indice="${i.codigo}" class="index-button">${i.nombre}</button>`)
+    .join("");
+  qs("indices-inpp").innerHTML = indices
+    .filter((i) => i.tipo === "nacional" && i.familia === "INPP")
+    .map((i) => `<button data-indice="${i.codigo}" class="index-button">${i.nombre}</button>`)
+    .join("");
+  qs("indices-internacional").innerHTML = indices
+    .filter((i) => i.tipo === "internacional")
+    .map((i) => `<button data-indice="${i.codigo}" class="index-button">${i.nombre}</button>`)
+    .join("");
 }
 
 function readFilters() {
@@ -229,14 +239,33 @@ function bindEvents() {
     consultar(true);
   };
 
-  qs("cambiar-indice").onclick = () => qs("indice-panel").classList.add("open");
+  function closeIndiceDrawer() {
+    qs("indice-panel").classList.remove("open");
+    qs("drawer-backdrop").classList.add("hidden");
+  }
+
+  qs("cambiar-indice").onclick = () => {
+    qs("indice-panel").classList.add("open");
+    qs("drawer-backdrop").classList.remove("hidden");
+  };
+
+  qs("drawer-backdrop").onclick = closeIndiceDrawer;
+
   qs("indice-panel").onclick = (event) => {
     const indice = event.target.dataset.indice;
     if (!indice) return;
     state.overrideIndice = indice;
-    qs("indice-panel").classList.remove("open");
+    closeIndiceDrawer();
     consultar(true);
   };
+
+  document.addEventListener("click", (event) => {
+    const drawer = qs("indice-panel");
+    const openButton = qs("cambiar-indice");
+    if (!drawer.classList.contains("open")) return;
+    if (drawer.contains(event.target) || openButton.contains(event.target)) return;
+    closeIndiceDrawer();
+  });
 
   qs("descargar").onclick = () => qs("export-modal").classList.remove("hidden");
   qs("cerrar-modal").onclick = () => qs("export-modal").classList.add("hidden");

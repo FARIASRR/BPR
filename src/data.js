@@ -11,10 +11,24 @@ const centroAreaMap = {
 };
 
 const indicesCatalogo = [
-  { codigo: "INPC", nombre: "INPC México", tipo: "nacional" },
-  { codigo: "CPI-U", nombre: "CPI-U (USA)", tipo: "internacional" },
-  { codigo: "CP0000EZ19M086NEST", nombre: "IPCA Eurozona", tipo: "internacional" },
-  { codigo: "INPP", nombre: "INPP México", tipo: "nacional" }
+  { codigo: "INPC", nombre: "INPC México (Índice Nacional de Precios al Consumidor)", tipo: "nacional", familia: "INPC" },
+  { codigo: "INPC_SUBY", nombre: "INPC Subyacente", tipo: "nacional", familia: "INPC" },
+  { codigo: "INPC_NO_SUBY", nombre: "INPC No Subyacente", tipo: "nacional", familia: "INPC" },
+  { codigo: "INPP", nombre: "INPP Producción total (SCIAN 2018)", tipo: "nacional", familia: "INPP" },
+  { codigo: "INPP_SEC", nombre: "INPP Sector secundario", tipo: "nacional", familia: "INPP" },
+  { codigo: "INPP_TER", nombre: "INPP Sector terciario", tipo: "nacional", familia: "INPP" },
+  {
+    codigo: "CPI-U",
+    nombre: "Historical Consumer Price Index for All Urban Consumers (CPI-U): U.S. city average, all items, by month",
+    tipo: "internacional",
+    familia: "INT"
+  },
+  {
+    codigo: "CP0000EZ19M086NEST",
+    nombre: "Índice de Precios al Consumidor Armonizado (IPCA) para la zona del euro (19 países) (CP0000EZ19M086NEST)",
+    tipo: "internacional",
+    familia: "INT"
+  }
 ];
 
 const factorIndice = [
@@ -26,9 +40,13 @@ const factorIndice = [
   ["2025-07", 0.02, 0.015, 0.01, 0.018]
 ].flatMap(([periodo, inpc, cpi, ipca, inpp]) => [
   { indice: "INPC", periodo, factor_hasta_ultimo: inpc },
+  { indice: "INPC_SUBY", periodo, factor_hasta_ultimo: Number((inpc * 0.95).toFixed(4)) },
+  { indice: "INPC_NO_SUBY", periodo, factor_hasta_ultimo: Number((inpc * 1.05).toFixed(4)) },
   { indice: "CPI-U", periodo, factor_hasta_ultimo: cpi },
   { indice: "CP0000EZ19M086NEST", periodo, factor_hasta_ultimo: ipca },
-  { indice: "INPP", periodo, factor_hasta_ultimo: inpp }
+  { indice: "INPP", periodo, factor_hasta_ultimo: inpp },
+  { indice: "INPP_SEC", periodo, factor_hasta_ultimo: Number((inpp * 0.96).toFixed(4)) },
+  { indice: "INPP_TER", periodo, factor_hasta_ultimo: Number((inpp * 1.03).toFixed(4)) }
 ]);
 
 function pick(arr, seed) {
